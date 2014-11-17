@@ -1,0 +1,11 @@
+.black_overlay{display: none;position: absolute;top: 0%;left: 0%;width: 100%;height: 100%;background-color: black;z-index:100000001;-moz-opacity: 0.8;opacity:.80;filter: alpha(opacity=80);}
+#choose-box-wrapper{width:652px;background:#000;background-color:rgba(0, 0, 0, 0.5);padding:10px;border-radius:5px;display:none;z-index:100000002;color:white;}
+#choose-box{border:1px solid #880104;width:650px;background:#fff;}
+#choose-box-title{background:#C40009;color:white;padding:4px 10px 5px;font-size:14px;font-weight:700;margin:0;}
+#choose-box-title span{font-family:Tahoma, Verdana, STHeiTi, simsun, sans-serif;}
+#choose-a-store{margin:5px 8px 10px 8px;border:1px solid #C3C3C3;}
+#choose-a-store a{display:inline-block;height:18px;line-height:18px;color:#C40009;text-decoration:none;font-size:9pt;font-family:Tahoma, Verdana, STHeiTi, simsun, sans-serif;margin:2px 5px;padding:1px;text-align:center;}
+#choose-a-store a:hover{text-decoration:underline;cursor:pointer;}
+#choose-a-store .choosen{background:#C40009;color:white;}
+#choose-box-bottom{background:#F0F5F8;padding:8px;text-align:right;border-top:1px solid #CCC;height:40px;}
+#choose-box-bottom input{vertical-align:middle;text-align:center;background:#C40009;color:white;border-top:1px solid #880104;border-left:1px solid #B8D4E8;border-right:1px solid #114680;border-bottom:1px solid #114680;cursor:pointer;width:60px;height:25px;margin-top:6px;margin-right:6px;}

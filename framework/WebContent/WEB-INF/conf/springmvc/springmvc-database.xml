@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+<!-- Bean Definitions required for data access using Spring Jdbc DAO Support -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="/WEB-INF/conf/database.properties" />
+	</bean>
+	<bean id="mysqlDataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${db.mysql.driver}" />
+		<property name="url" value="${db.mysql.url}" />
+		<property name="username" value="${db.mysql.user}" />
+		<property name="password" value="${db.mysql.pass}" />
+		<property name="initialSize" value="5" />
+		<property name="maxActive" value="10" />
+		<!-- 一定时间自动连接数据库 -->
+		<property name="validationQuery" value="SELECT 1" />
+		<property name="testWhileIdle" value="true" />
+		<property name="timeBetweenEvictionRunsMillis" value="7200000" />
+		<property name="minEvictableIdleTimeMillis" value="3600000" />
+		<property name="testOnBorrow" value="true" />
+	</bean>
+
+	<bean id="oracleDataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${db.oracle.driver}" />
+		<property name="url" value="${db.oracle.url}" />
+		<property name="username" value="${db.oracle.user}" />
+		<property name="password" value="${db.oracle.pass}" />
+		<property name="initialSize" value="5" />
+		<property name="maxActive" value="10" />
+	</bean>
+
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="${db.type}DataSource" />
+	</bean>
+	
+	<bean id="nativeJdbcExtractor"
+		class="org.springframework.jdbc.support.nativejdbc.CommonsDbcpNativeJdbcExtractor"
+		lazy-init="true" />
+
+	<bean id="oracleLobHandler" class="org.springframework.jdbc.support.lob.OracleLobHandler"
+		lazy-init="true">
+		<property name="nativeJdbcExtractor" ref="nativeJdbcExtractor" />
+	</bean>
+
+	<bean id="mysqlLobHandler" class="org.springframework.jdbc.support.lob.DefaultLobHandler"
+		lazy-init="true">
+	</bean>
+</beans>

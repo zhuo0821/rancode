@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	id="WebApp_ID" version="3.0">
+	<context-param>
+		<param-name>webAppRootKey</param-name>
+		<param-value>framework.root</param-value>
+	</context-param>
+	<display-name>framework</display-name>
+	<welcome-file-list>
+		<welcome-file>index.jspx</welcome-file>
+	</welcome-file-list>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/pages/404.html</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/pages/500.html</location>
+	</error-page>
+
+	<!-- 拦截器配置开始 -->
+
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>CheckSession</filter-name>
+		<filter-class>com.restaurant.filter.CheckSessionFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>CheckCache</filter-name>
+		<filter-class>com.restaurant.filter.CacheFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>CheckSession</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>CheckCache</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>CheckSession</filter-name>
+		<url-pattern>/system.do</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>CheckSession</filter-name>
+		<url-pattern>/manage.jspx</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>CheckSession</filter-name>
+		<url-pattern>/mobile.jspx</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>CheckSession</filter-name>
+		<url-pattern>/admin.jspx</url-pattern>
+	</filter-mapping>
+	<!-- 拦截器配置结束 -->
+	<!-- log4j配置开始 -->
+	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>/WEB-INF/conf/log4j.properties</param-value>
+	</context-param>
+	<listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	</listener>
+	<!-- log4j配置结束 -->
+	<!-- servlet配置开始 -->
+	<servlet>
+		<servlet-name>spring</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/conf/springmvc.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet>
+		<servlet-name>dwr-invoker</servlet-name>
+		<servlet-class>uk.ltd.getahead.dwr.DWRServlet</servlet-class>
+		<!-- 使用polling和comet的方式 -->
+		<init-param>
+			<param-name>pollAndCometEnabled</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value> true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>crossDomainSessionSecurity</param-name>
+			<param-value> false</param-value>
+		</init-param>
+		<init-param>
+			<param-name>allowScriptTagRemoting</param-name>
+			<param-value> true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>org.directwebremoting.extend.ScriptSessionManager</param-name>
+			<param-value>com.restaurant.dwr.DWRScriptSessionManager </param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<session-config>
+		<session-timeout>60</session-timeout>
+	</session-config>
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>*.jspx</url-pattern>
+	</servlet-mapping>
+	<!-- servlet配置结束 -->
+</web-app>

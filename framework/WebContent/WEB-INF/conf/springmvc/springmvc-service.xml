@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+<bean id="systemService" class="com.rancode.service.SystemService">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+	<bean id="manageService" class="com.rancode.service.ManageService">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+	
+  
+	<!-- 登录控制器-->
+	<bean name="/login.do" class="com.rancode.controller.LoginController">
+		<property name="JdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+	<!-- 注销控制器-->
+	<bean name="/logout.do" class="com.rancode.controller.LogoutController" />
+	
+	<!-- 图片验证码-->
+	<bean id="captchaProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha">  
+        <property name="config">  
+            <bean class="com.google.code.kaptcha.util.Config">  
+                <constructor-arg>  
+                    <props>  
+                        <prop key="kaptcha.border">no</prop>  
+                        <prop key="kaptcha.border.color">62,115,183</prop>  
+                        <prop key="kaptcha.image.width">85</prop>  
+                        <prop key="kaptcha.image.height">30</prop>  
+                        <prop key="kaptcha.noise.impl">com.google.code.kaptcha.impl.NoNoise</prop> 
+                        <prop key="kaptcha.textproducer.font.size">18</prop>
+                        <prop key="kaptcha.obscurificator.impl">com.google.code.kaptcha.impl.ShadowGimpy</prop>  
+                        <prop key="kaptcha.session.key">code</prop> 
+                        <prop key="kaptcha.noise.color">white</prop>
+                        <prop key="kaptcha.textproducer.char.length">4</prop>  
+                    </props>  
+                </constructor-arg>  
+            </bean>  
+        </property>  
+    </bean>
+    </beans>

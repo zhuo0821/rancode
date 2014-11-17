@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	
+	<!-- jsp页面解析器，当Controller返回XXX字符串时，先通过拦截器，然后该类就会在/WEB-INF/views/目录下，查找XXX.jsp文件 -->
+	 <!--以下三种视图配置根据需要任选一种即可 -->
+
+    <!--  一般的视图配置 -->
+    <!--<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" 
+        p:prefix="/WEB-INF/view/" p:suffix=".jsp"/>-->
+    
+    <!-- 针对freemarker的视图配置 -->
+    <!-- <bean id="viewResolver"
+        class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <property name="cache" value="true" />
+        <property name="prefix" value="" />
+        <property name="suffix" value=".ftl" />
+        <property name="contentType" value="text/html;charset=UTF-8"></property>
+        <property name="requestContextAttribute" value="request" />
+        <property name="exposeSpringMacroHelpers" value="true" />
+        <property name="exposeRequestAttributes" value="true" />
+        <property name="exposeSessionAttributes" value="true" />
+    </bean> -->
+        
+        
+    <!-- View resolvers can also be configured with ResourceBundles or XML files. 
+        If you need different view resolving based on Locale, you have to use the 
+        resource bundle resolver. -->
+    <!-- 这个是针对返回视图还是json值的视图配置   来分别处理同步和异步请求 -->
+    <bean
+            class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+            <property name="mediaTypes">
+                <map>
+                    <entry key="html" value="text/html" />
+                    <entry key="json" value="application/json" />
+                </map>
+            </property>
+            <property name="favorParameter" value="true" />
+            <property name="viewResolvers">
+                <list>
+                    <bean class="org.springframework.web.servlet.view.BeanNameViewResolver" />
+                    <bean id="viewResolver"
+                        class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+                        <property name="cache" value="true" />
+                        <property name="prefix" value="" />
+                        <property name="suffix" value=".ftl" />
+                        <property name="contentType" value="text/html;charset=UTF-8"></property>
+                        <property name="requestContextAttribute" value="request" />
+                        <property name="exposeSpringMacroHelpers" value="true" />
+                        <property name="exposeRequestAttributes" value="true" />
+                        <property name="exposeSessionAttributes" value="true" />
+                    </bean>
+                </list>
+            </property>
+            <property name="defaultContentType" value="text/html" />
+        </bean>
+       
+        <bean id="freemarkerConfig"
+        class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPath" value="/WEB-INF/views/" />
+        <property name="freemarkerSettings">
+            <props>
+                <prop key="template_update_delay">0</prop>
+                <prop key="default_encoding">UTF-8</prop>
+                <prop key="number_format">0.##########</prop>
+                <prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+                <prop key="classic_compatible">true</prop>
+                <prop key="template_exception_handler">ignore</prop>
+            </props>
+        </property>
+    	</bean>
+</beans>
